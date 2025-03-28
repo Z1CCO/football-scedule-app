@@ -1,16 +1,26 @@
-# for_videos
+# ⚽ Football Schedule App  
 
-A new Flutter project.
+This is a Flutter-based application for scheduling football matches with an intuitive UI and automated conflict detection.  
 
-## Getting Started
+## 📌 Features  
+✅ Manual editing (drag & drop or dropdown selection)  
+✅ Conflict detection and warnings  
+✅ Ensures matches do not overlap  
+✅ Matches align with teams' preferred schedules  
+✅ Prevents teams from playing back-to-back games  
+✅ Ensures stadium availability  
 
-This project is a starting point for a Flutter application.
+## 🚀 Approach  
+1. **Algorithm:** Automatically schedules matches while avoiding conflicts.  
+2. **UI:** Displays match schedules with easy modifications.  
+3. **Interactivity:** Users can select match times, and the app provides warnings if conflicts arise.  
 
-A few resources to get you started if this is your first Flutter project:
+## 🔧 Installation & Usage  
+1. Ensure Flutter SDK is installed.  
+2. Run the following commands in the terminal:  
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+git clone https://github.com/your_username/football_schedule_app.git
+cd football_schedule_app
+flutter pub get
+flutter run
