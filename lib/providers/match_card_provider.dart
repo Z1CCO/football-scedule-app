@@ -19,10 +19,4 @@ class MatchCardProvider {
     final end = range.end.hour * 60 + range.end.minute;
     return totalMinutes >= start && totalMinutes <= end;
   }
-
-  static Color? getCardColor(bool hasTimeConflict, bool hasTeamConflict) {
-    if (hasTimeConflict) return Colors.red[100];
-    if (hasTeamConflict) return Colors.orange[100];
-    return null;
-  }
 }

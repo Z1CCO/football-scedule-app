@@ -34,16 +34,17 @@ class HomeScreen extends StatelessWidget {
               itemCount: provider.matches.length,
               itemBuilder: (context, index) {
                 final match = provider.matches[index];
-                final teamConflict = provider.hasTeamConflict(match);
+
                 return MatchCard(
                   key: Key('${match.team1.name}_${match.team2.name}_$index'),
                   match: match,
                   index: index,
                   hasTimeConflict: errors['timeConflicts']!,
-                  hasTeamConflict: teamConflict,
                 );
               },
-              onReorder: provider.reorderMatches,
+              onReorder: (oldIndex, newIndex) {
+                provider.reorderMatches(oldIndex, newIndex);
+              },
             ),
           ),
         ],

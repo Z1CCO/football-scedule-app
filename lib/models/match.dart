@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'team.dart';
 
 class Match {
-  final Team team1;
-  final Team team2;
+  Team team1;
+  Team team2;
   TimeOfDay startTime;
   TimeOfDay endTime;
 

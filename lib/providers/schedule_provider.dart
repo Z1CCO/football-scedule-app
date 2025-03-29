@@ -10,8 +10,20 @@ class ScheduleProvider with ChangeNotifier {
 
   void reorderMatches(int oldIndex, int newIndex) {
     if (oldIndex < newIndex) newIndex--;
+    List<TimeOfDay> startTimes = matches.map((m) => m.startTime).toList();
+    List<TimeOfDay> endTimes = matches.map((m) => m.endTime).toList();
     final match = matches.removeAt(oldIndex);
     matches.insert(newIndex, match);
+    for (int i = 0; i < matches.length; i++) {
+      matches[i] = Match(
+        matches[i].team1,
+        matches[i].team2,
+        startTimes[i],
+        endTimes[i],
+      );
+    }
+    validateSchedule();
+
     notifyListeners();
   }
 
@@ -100,7 +112,6 @@ class ScheduleProvider with ChangeNotifier {
         }
       }
     }
-
     return errors;
   }
 
@@ -118,30 +129,23 @@ class ScheduleProvider with ChangeNotifier {
     return totalMinutes >= start && totalMinutes <= end;
   }
 
-  bool hasTeamConflict(Match match) {
-    final teamMatches =
-        matches
-            .where(
-              (m) =>
-                  m.team1.name == match.team1.name ||
-                  m.team2.name == match.team1.name ||
-                  m.team1.name == match.team2.name ||
-                  m.team2.name == match.team2.name,
-            )
-            .toList();
+  bool isBackToBackMatch(int matchIndex) {
+    final currentMatch = matches[matchIndex];
 
-    teamMatches.sort((a, b) => a.startTime.hour.compareTo(b.startTime.hour));
+    bool checkPrevious =
+        matchIndex > 0 &&
+        (matches[matchIndex - 1].team1.name == currentMatch.team1.name ||
+            matches[matchIndex - 1].team1.name == currentMatch.team2.name ||
+            matches[matchIndex - 1].team2.name == currentMatch.team1.name ||
+            matches[matchIndex - 1].team2.name == currentMatch.team2.name);
 
-    for (int i = 0; i < teamMatches.length - 1; i++) {
-      final currentEnd = _calculateEndTime(teamMatches[i].startTime);
-      final nextStart = teamMatches[i + 1].startTime;
+    bool checkNext =
+        matchIndex < matches.length - 1 &&
+        (matches[matchIndex + 1].team1.name == currentMatch.team1.name ||
+            matches[matchIndex + 1].team1.name == currentMatch.team2.name ||
+            matches[matchIndex + 1].team2.name == currentMatch.team1.name ||
+            matches[matchIndex + 1].team2.name == currentMatch.team2.name);
 
-      if ((nextStart.hour * 60 + nextStart.minute) -
-              (currentEnd.hour * 60 + currentEnd.minute) <
-          15) {
-        return true;
-      }
-    }
-    return false;
+    return checkPrevious || checkNext;
   }
 }
